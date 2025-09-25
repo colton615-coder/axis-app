@@ -1,22 +1,29 @@
-// Wait for the DOM to be fully loaded before running the script
+// Wait for the DOM to be fully loaded
 document.addEventListener('DOMContentLoaded', () => {
 
-    // Get references to the button and the display area from the HTML
-    const actionButton = document.getElementById('action-button');
-    const displayArea = document.getElementById('display-area');
+    const tabs = document.querySelectorAll('.nav-tab');
+    const contentPanes = document.querySelectorAll('.content-pane');
 
-    // Check if both elements were found
-    if (actionButton && displayArea) {
-        
-        // Add a click event listener to the button
-        actionButton.addEventListener('click', () => {
-            // When the button is clicked, update the HTML inside the display area
-            displayArea.innerHTML = '<p><strong>Success!</strong> The content has been updated.</p>';
+    // Add a click event listener to each tab
+    tabs.forEach(tab => {
+        tab.addEventListener('click', () => {
+            // Get the target content ID from the data-target attribute
+            const targetId = tab.dataset.target;
+
+            // Remove 'active' class from all tabs and content panes
+            tabs.forEach(t => t.classList.remove('active'));
+            contentPanes.forEach(pane => pane.classList.remove('active'));
+            
+            // Add 'active' class to the clicked tab
+            tab.classList.add('active');
+            
+            // Add 'active' class to the corresponding content pane
+            const targetPane = document.getElementById(targetId);
+            if (targetPane) {
+                targetPane.classList.add('active');
+            } else {
+                console.error(`Content pane with ID "${targetId}" not found.`);
+            }
         });
-
-    } else {
-        // Log an error to the console if elements are missing
-        console.error('Required elements (button or display area) not found.');
-    }
-
+    });
 });

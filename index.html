@@ -5,10 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Axis</title>
     <style>
-        /* Basic styling for now */
         body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
         #root { max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
         h1 { text-align: center; color: #1c1e21; }
+        .task-input-container { display: flex; margin-bottom: 20px; }
+        input[type="text"] { flex-grow: 1; padding: 10px; border: 1px solid #ddd; border-radius: 6px; font-size: 16px; }
+        button { padding: 10px 15px; margin-left: 10px; background-color: #007bff; color: white; border: none; border-radius: 6px; font-size: 16px; cursor: pointer; }
+        button:hover { background-color: #0056b3; }
+        ul { list-style-type: none; padding: 0; }
+        li { background-color: #f9f9f9; padding: 12px; border-bottom: 1px solid #eee; display: flex; justify-content: space-between; align-items: center; }
+        li:first-child { border-top: 1px solid #eee; }
     </style>
 </head>
 <body>
@@ -18,13 +24,11 @@
     <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
     <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
     <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
-
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
     <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
 
     <script type="text/babel">
       
-      // Your web app's Firebase configuration
       const firebaseConfig = {
         apiKey: "AIzaSyAtysgc1SGK4fec08uvPfELE6Z1WUHboJ0",
         authDomain: "axs2025.firebaseapp.com",
@@ -35,23 +39,72 @@
         measurementId: "G-PL63HPMNGP"
       };
 
-      // Initialize Firebase
       const app = firebase.initializeApp(firebaseConfig);
-      // Initialize Firestore Database
       const db = firebase.firestore();
-      console.log("Firebase and Firestore Initialized Successfully!");
+      const tasksCollection = db.collection('tasks');
 
-      // Our main React component
       function App() {
+        // State to hold the list of tasks
+        const [tasks, setTasks] = React.useState([]);
+        // State to hold the content of the input box
+        const [newTask, setNewTask] = React.useState('');
+
+        // useEffect runs when the component loads
+        // This will fetch tasks and listen for real-time updates
+        React.useEffect(() => {
+          const unsubscribe = tasksCollection.orderBy('createdAt', 'desc').onSnapshot(snapshot => {
+            const tasksData = snapshot.docs.map(doc => ({
+              id: doc.id,
+              ...doc.data()
+            }));
+            setTasks(tasksData);
+          });
+          // Cleanup subscription on unmount
+          return () => unsubscribe();
+        }, []);
+
+        // Function to handle adding a new task
+        const handleAddTask = () => {
+          if (newTask.trim() === '') return; // Don't add empty tasks
+
+          tasksCollection.add({
+            text: newTask,
+            createdAt: firebase.firestore.FieldValue.serverTimestamp()
+          });
+          
+          setNewTask(''); // Clear the input box
+        };
+
+        const handleKeyPress = (event) => {
+            if(event.key === 'Enter'){
+                handleAddTask();
+            }
+        }
+
         return (
           <div>
             <h1>Axis Task Organizer</h1>
-            {/* Our task input and list will go here later */}
+            <div className="task-input-container">
+              <input 
+                type="text"
+                value={newTask}
+                onChange={(e) => setNewTask(e.target.value)}
+                onKeyPress={handleKeyPress}
+                placeholder="Enter a new task..."
+              />
+              <button onClick={handleAddTask}>Add Task</button>
+            </div>
+            <ul>
+              {tasks.map(task => (
+                <li key={task.id}>
+                  {task.text}
+                </li>
+              ))}
+            </ul>
           </div>
         );
       }
 
-      // Render the App component into the 'root' div
       const container = document.getElementById('root');
       const root = ReactDOM.createRoot(container);
       root.render(<App />);

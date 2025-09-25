@@ -1,1 +1,62 @@
+/* --- Basic Setup & Global Styles --- */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
 
+body {
+    font-family: 'Poppins', sans-serif;
+}
+
+/* --- The Background --- */
+/* A vibrant background is key to seeing the blur effect. */
+.showcase-container {
+    min-height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
+    gap: 40px; /* Space between the cards */
+    padding: 20px;
+
+    /* The Gradient Background */
+    background: linear-gradient(to right top, #00c6ff, #0072ff);
+}
+
+/* --- The Glassmorphism Card --- */
+.glass-card {
+    /* Sizing */
+    width: 400px;
+    padding: 30px;
+    
+    /* The Glassmorphism Recipe */
+    background: rgba(255, 255, 255, 0.2); /* 1. Semi-transparent background */
+    border-radius: 20px; /* 2. Rounded corners */
+    border: 1px solid rgba(255, 255, 255, 0.3); /* 3. Subtle border */
+    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Optional: Adds depth */
+    backdrop-filter: blur(10px); /* 4. The magic blur effect */
+    -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
+
+    /* Text Styling */
+    color: #fff;
+}
+
+/* Modifier for the smaller card */
+.glass-card.small {
+    width: 250px;
+}
+
+/* --- Text inside the card --- */
+.card-title {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
+}
+
+.card-text {
+    font-size: 1rem;
+    font-weight: 300;
+    line-height: 1.6;
+}

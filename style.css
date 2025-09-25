@@ -1,62 +1,78 @@
-/* --- Basic Setup & Global Styles --- */
-* {
+/* General Body Styles */
+body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.6;
     margin: 0;
     padding: 0;
-    box-sizing: border-box;
-}
-
-body {
-    font-family: 'Poppins', sans-serif;
-}
-
-/* --- The Background --- */
-/* A vibrant background is key to seeing the blur effect. */
-.showcase-container {
+    background-color: #f4f4f9;
+    color: #333;
+    display: flex;
+    flex-direction: column;
     min-height: 100vh;
+}
+
+/* Header Styles */
+header {
+    background-color: #4a69bd;
+    color: #ffffff;
+    padding: 1rem 0;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+}
+
+header h1 {
+    margin: 0;
+}
+
+/* Main Content Styles */
+main {
+    flex: 1;
     display: flex;
     justify-content: center;
     align-items: center;
-    flex-wrap: wrap; /* Allows cards to wrap on smaller screens */
-    gap: 40px; /* Space between the cards */
-    padding: 20px;
-
-    /* The Gradient Background */
-    background: linear-gradient(to right top, #00c6ff, #0072ff);
+    padding: 2rem;
 }
 
-/* --- The Glassmorphism Card --- */
-.glass-card {
-    /* Sizing */
-    width: 400px;
-    padding: 30px;
-    
-    /* The Glassmorphism Recipe */
-    background: rgba(255, 255, 255, 0.2); /* 1. Semi-transparent background */
-    border-radius: 20px; /* 2. Rounded corners */
-    border: 1px solid rgba(255, 255, 255, 0.3); /* 3. Subtle border */
-    box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1); /* Optional: Adds depth */
-    backdrop-filter: blur(10px); /* 4. The magic blur effect */
-    -webkit-backdrop-filter: blur(10px); /* For Safari compatibility */
-
-    /* Text Styling */
-    color: #fff;
+#content-container {
+    background: #ffffff;
+    padding: 2rem;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    text-align: center;
+    max-width: 500px;
+    width: 100%;
 }
 
-/* Modifier for the smaller card */
-.glass-card.small {
-    width: 250px;
-}
-
-/* --- Text inside the card --- */
-.card-title {
-    font-size: 2rem;
-    font-weight: 600;
-    margin-bottom: 10px;
-    text-shadow: 0 1px 3px rgba(0, 0, 0, 0.15);
-}
-
-.card-text {
+/* Button Styles */
+#action-button {
+    background-color: #5d82d1;
+    color: #ffffff;
+    border: none;
+    padding: 12px 24px;
     font-size: 1rem;
-    font-weight: 300;
-    line-height: 1.6;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#action-button:hover {
+    background-color: #4a69bd;
+}
+
+/* Display Area Styles */
+#display-area {
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background-color: #f0f3f5;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+}
+
+/* Footer Styles */
+footer {
+    text-align: center;
+    padding: 1rem 0;
+    background-color: #333;
+    color: #f4f4f9;
+    width: 100%;
 }

@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Axis</title>
+    <style>
+        /* Basic styling for now */
+        body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; background-color: #f0f2f5; margin: 0; padding: 20px; }
+        #root { max-width: 600px; margin: auto; background-color: white; padding: 20px; border-radius: 8px; box-shadow: 0 2px 4px rgba(0,0,0,0.1); }
+        h1 { text-align: center; color: #1c1e21; }
+    </style>
+</head>
+<body>
+
+    <div id="root"></div>
+
+    <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+    <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+    <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/10.12.2/firebase-firestore-compat.js"></script>
+
+    <script type="text/babel">
+      
+      // Your web app's Firebase configuration
+      const firebaseConfig = {
+        apiKey: "AIzaSyAtysgc1SGK4fec08uvPfELE6Z1WUHboJ0",
+        authDomain: "axs2025.firebaseapp.com",
+        projectId: "axs2025",
+        storageBucket: "axs2025.firebasestorage.app",
+        messagingSenderId: "473920854817",
+        appId: "1:473920854817:web:a0273983564d1504517c60",
+        measurementId: "G-PL63HPMNGP"
+      };
+
+      // Initialize Firebase
+      const app = firebase.initializeApp(firebaseConfig);
+      // Initialize Firestore Database
+      const db = firebase.firestore();
+      console.log("Firebase and Firestore Initialized Successfully!");
+
+      // Our main React component
+      function App() {
+        return (
+          <div>
+            <h1>Axis Task Organizer</h1>
+            {/* Our task input and list will go here later */}
+          </div>
+        );
+      }
+
+      // Render the App component into the 'root' div
+      const container = document.getElementById('root');
+      const root = ReactDOM.createRoot(container);
+      root.render(<App />);
+
+    </script>
+
+</body>
+</html>

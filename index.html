@@ -3,24 +3,36 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Axis App Project</title>
+    <title>Axis Golf Trainer</title>
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
 
     <header>
-        <h1>Welcome to the Axis App</h1>
+        <h1>Axis Golf Trainer</h1>
     </header>
 
+    <nav id="main-nav">
+        <button class="nav-tab active" data-target="drills">Drills</button>
+        <button class="nav-tab" data-target="notepad">Notepad</button>
+        <button class="nav-tab" data-target="analysis">Swing Analysis</button>
+    </nav>
+
     <main>
-        <div id="content-container">
-            <h2>Interactive Demo</h2>
-            <p>Click the button below to update the message.</p>
-            <button id="action-button">Click Me!</button>
-            <div id="display-area">
-                <p>Waiting for interaction...</p>
-            </div>
+        <div id="drills" class="content-pane active">
+            <h2>Training Drills</h2>
+            <p>This section will contain a library of golf drills to improve your game.</p>
         </div>
+
+        <div id="notepad" class="content-pane">
+            <h2>Practice Notepad</h2>
+            <p>Here, you will be able to jot down notes from your practice sessions.</p>
+            </div>
+
+        <div id="analysis" class="content-pane">
+            <h2>Swing Analysis</h2>
+            <p>This module will help you log thoughts and analyze your swing mechanics.</p>
+            </div>
     </main>
 
     <footer>

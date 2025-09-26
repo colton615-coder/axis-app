@@ -8,12 +8,9 @@ document.addEventListener('DOMContentLoaded', () => {
     tabs.forEach(tab => {
         tab.addEventListener('click', () => {
             const targetId = tab.dataset.target;
-
             tabs.forEach(t => t.classList.remove('active'));
             contentPanes.forEach(pane => pane.classList.remove('active'));
-            
             tab.classList.add('active');
-            
             const targetPane = document.getElementById(targetId);
             if (targetPane) {
                 targetPane.classList.add('active');
@@ -21,71 +18,119 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     });
 
+    // --- DRILLS MODULE FUNCTIONALITY ---
+    const drillForm = document.getElementById('drill-form');
+    const drillsList = document.getElementById('drills-list');
+
+    const getDrills = () => JSON.parse(localStorage.getItem('axis-app-drills')) || [];
+    const saveDrills = (drills) => localStorage.setItem('axis-app-drills', JSON.stringify(drills));
+
+    const renderDrills = () => {
+        drillsList.innerHTML = ''; // Clear the list before rendering
+        const drills = getDrills();
+        drills.forEach(drill => {
+            const drillElement = document.createElement('div');
+            drillElement.classList.add('drill-item');
+            drillElement.dataset.id = drill.id;
+
+            drillElement.innerHTML = `
+                <div class="drill-header">
+                    <span class="drill-title-category">
+                        ${drill.title}
+                        <span class="drill-category-badge">${drill.category}</span>
+                    </span>
+                    <button class="delete-btn">Delete</button>
+                </div>
+                <div class="drill-content">
+                    <p>${drill.description}</p>
+                </div>
+            `;
+            drillsList.appendChild(drillElement);
+        });
+    };
+
+    if (drillForm) {
+        drillForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            const newDrill = {
+                id: Date.now(),
+                title: document.getElementById('drill-title').value,
+                category: document.getElementById('drill-category').value,
+                description: document.getElementById('drill-description').value,
+            };
+            const drills = getDrills();
+            drills.push(newDrill);
+            saveDrills(drills);
+            renderDrills();
+            drillForm.reset();
+        });
+    }
+
+    if (drillsList) {
+        drillsList.addEventListener('click', (e) => {
+            const drillItem = e.target.closest('.drill-item');
+            if (!drillItem) return;
+            
+            const drillId = Number(drillItem.dataset.id);
+            
+            // Handle delete button click
+            if (e.target.classList.contains('delete-btn')) {
+                let drills = getDrills();
+                drills = drills.filter(drill => drill.id !== drillId);
+                saveDrills(drills);
+                renderDrills();
+            }
+            // Handle accordion toggle
+            else if (e.target.closest('.drill-header')) {
+                const content = drillItem.querySelector('.drill-content');
+                content.classList.toggle('visible');
+            }
+        });
+    }
+    
     // --- NOTEPAD FUNCTIONALITY ---
     const noteInput = document.getElementById('note-input');
     const saveNoteBtn = document.getElementById('save-note-btn');
     const notesList = document.getElementById('notes-list');
 
-    // Function to save all notes currently in the DOM to localStorage
     const saveNotes = () => {
-        const currentNotes = [];
-        document.querySelectorAll('#notes-list .note-text').forEach(note => {
-            currentNotes.push(note.textContent);
-        });
+        const currentNotes = Array.from(document.querySelectorAll('#notes-list .note-text')).map(note => note.textContent);
         localStorage.setItem('axis-app-notes', JSON.stringify(currentNotes));
     };
 
-    // Function to create a single note element in the DOM
     const createNoteElement = (text) => {
         const noteItem = document.createElement('div');
         noteItem.classList.add('note-item');
-
-        const noteTextElement = document.createElement('span');
-        noteTextElement.classList.add('note-text');
-        noteTextElement.textContent = text;
-
-        const deleteBtn = document.createElement('button');
-        deleteBtn.classList.add('delete-btn');
-        deleteBtn.textContent = 'Delete';
-        
-        noteItem.appendChild(noteTextElement);
-        noteItem.appendChild(deleteBtn);
-        
+        noteItem.innerHTML = `<span class="note-text">${text}</span><button class="delete-btn">Delete</button>`;
         notesList.appendChild(noteItem);
     };
 
-    // Function to load notes from localStorage when the app starts
     const loadNotes = () => {
         const savedNotes = JSON.parse(localStorage.getItem('axis-app-notes')) || [];
-        savedNotes.forEach(noteText => {
-            createNoteElement(noteText);
-        });
+        savedNotes.forEach(noteText => createNoteElement(noteText));
     };
 
-    // Event listener for the save button to add a new note
     if (saveNoteBtn) {
         saveNoteBtn.addEventListener('click', () => {
             const noteText = noteInput.value.trim();
             if (noteText) {
                 createNoteElement(noteText);
-                saveNotes(); // Save after adding
+                saveNotes();
                 noteInput.value = '';
             }
         });
     }
 
-    // Event listener for deleting notes (using event delegation)
     if (notesList) {
-        notesList.addEventListener('click', (event) => {
-            if (event.target.classList.contains('delete-btn')) {
-                const noteItem = event.target.parentElement;
-                notesList.removeChild(noteItem);
-                saveNotes(); // Save after deleting
+        notesList.addEventListener('click', (e) => {
+            if (e.target.classList.contains('delete-btn')) {
+                e.target.closest('.note-item').remove();
+                saveNotes();
             }
         });
     }
 
     // --- INITIAL LOAD ---
-    // Load any saved notes as soon as the page is ready
+    renderDrills();
     loadNotes();
 });

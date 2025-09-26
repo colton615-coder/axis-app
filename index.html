@@ -13,18 +13,38 @@
     </header>
 
     <nav id="main-nav">
-        <button class="nav-tab" data-target="drills">Drills</button>
-        <button class="nav-tab active" data-target="notepad">Notepad</button>
+        <button class="nav-tab active" data-target="drills">Drills</button>
+        <button class="nav-tab" data-target="notepad">Notepad</button>
         <button class="nav-tab" data-target="analysis">Swing Analysis</button>
     </nav>
 
     <main>
-        <div id="drills" class="content-pane">
-            <h2>Training Drills</h2>
-            <p>This section will contain a library of golf drills to improve your game.</p>
+        <div id="drills" class="content-pane active">
+            <h2>Add a New Drill</h2>
+            <form id="drill-form">
+                <label for="drill-title">Drill Title</label>
+                <input type="text" id="drill-title" placeholder="e.g., 6-Foot Pressure Putts" required>
+
+                <label for="drill-category">Category</label>
+                <select id="drill-category">
+                    <option value="Putting">Putting</option>
+                    <option value="Chipping">Chipping</option>
+                    <option value="Pitching">Pitching</option>
+                    <option value="Irons">Irons</option>
+                    <option value="Wedges">Wedges</option>
+                    <option value="Driving">Driving</option>
+                </select>
+
+                <label for="drill-description">Description</label>
+                <textarea id="drill-description" placeholder="Describe the drill, sets, reps, goals..."></textarea>
+
+                <button type="submit">Save Drill</button>
+            </form>
+            <div id="drills-list">
+                </div>
         </div>
 
-        <div id="notepad" class="content-pane active">
+        <div id="notepad" class="content-pane">
             <h2>Practice Notepad</h2>
             <div id="note-form">
                 <textarea id="note-input" placeholder="Write down your swing thoughts, session goals, etc."></textarea>

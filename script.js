@@ -26,43 +26,52 @@ document.addEventListener('DOMContentLoaded', () => {
     const saveNoteBtn = document.getElementById('save-note-btn');
     const notesList = document.getElementById('notes-list');
 
-    // Function to add a new note
-    const addNote = () => {
-        const noteText = noteInput.value.trim();
+    // Function to save all notes currently in the DOM to localStorage
+    const saveNotes = () => {
+        const currentNotes = [];
+        document.querySelectorAll('#notes-list .note-text').forEach(note => {
+            currentNotes.push(note.textContent);
+        });
+        localStorage.setItem('axis-app-notes', JSON.stringify(currentNotes));
+    };
 
-        if (noteText === '') {
-            // Do not add empty notes
-            return;
-        }
-
-        // Create the note item container
+    // Function to create a single note element in the DOM
+    const createNoteElement = (text) => {
         const noteItem = document.createElement('div');
         noteItem.classList.add('note-item');
 
-        // Create the text element
         const noteTextElement = document.createElement('span');
         noteTextElement.classList.add('note-text');
-        noteTextElement.textContent = noteText;
+        noteTextElement.textContent = text;
 
-        // Create the delete button
         const deleteBtn = document.createElement('button');
         deleteBtn.classList.add('delete-btn');
         deleteBtn.textContent = 'Delete';
         
-        // Assemble the note item
         noteItem.appendChild(noteTextElement);
         noteItem.appendChild(deleteBtn);
         
-        // Add the new note to the list
         notesList.appendChild(noteItem);
-
-        // Clear the input field
-        noteInput.value = '';
     };
 
-    // Event listener for the save button
+    // Function to load notes from localStorage when the app starts
+    const loadNotes = () => {
+        const savedNotes = JSON.parse(localStorage.getItem('axis-app-notes')) || [];
+        savedNotes.forEach(noteText => {
+            createNoteElement(noteText);
+        });
+    };
+
+    // Event listener for the save button to add a new note
     if (saveNoteBtn) {
-        saveNoteBtn.addEventListener('click', addNote);
+        saveNoteBtn.addEventListener('click', () => {
+            const noteText = noteInput.value.trim();
+            if (noteText) {
+                createNoteElement(noteText);
+                saveNotes(); // Save after adding
+                noteInput.value = '';
+            }
+        });
     }
 
     // Event listener for deleting notes (using event delegation)
@@ -71,7 +80,12 @@ document.addEventListener('DOMContentLoaded', () => {
             if (event.target.classList.contains('delete-btn')) {
                 const noteItem = event.target.parentElement;
                 notesList.removeChild(noteItem);
+                saveNotes(); // Save after deleting
             }
         });
     }
+
+    // --- INITIAL LOAD ---
+    // Load any saved notes as soon as the page is ready
+    loadNotes();
 });

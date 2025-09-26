@@ -68,6 +68,81 @@ main {
     display: block; /* Show only the active pane */
 }
 
+/* --- Drills Module Specific Styles --- */
+#drill-form {
+    margin-bottom: 2rem;
+}
+#drill-form label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: bold;
+}
+#drill-form input,
+#drill-form select,
+#drill-form textarea {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 1rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 1rem;
+    box-sizing: border-box;
+}
+#drill-form button {
+    display: block;
+    width: 100%;
+    padding: 12px;
+    background-color: #3498db;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+#drill-form button:hover {
+    background-color: #2980b9;
+}
+#drills-list {
+    border-top: 1px solid #eee;
+    padding-top: 1rem;
+}
+.drill-item {
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    margin-bottom: 1rem;
+    overflow: hidden; /* Ensures child elements conform to border-radius */
+}
+.drill-header {
+    background-color: #f8f9fa;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    cursor: pointer;
+}
+.drill-title-category {
+    font-weight: bold;
+}
+.drill-category-badge {
+    background-color: #34495e;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.8rem;
+    margin-left: 10px;
+}
+.drill-content {
+    padding: 1rem;
+    border-top: 1px solid #ddd;
+    display: none; /* Hidden by default */
+    background-color: #fff;
+    white-space: pre-wrap; /* Respects line breaks in textarea */
+}
+.drill-content.visible {
+    display: block; /* Shown when active */
+}
+
 /* --- Notepad Specific Styles --- */
 #note-input {
     width: 100%;
@@ -77,9 +152,8 @@ main {
     border-radius: 5px;
     font-size: 1rem;
     margin-bottom: 1rem;
-    box-sizing: border-box; /* Important for padding */
+    box-sizing: border-box;
 }
-
 #save-note-btn {
     display: block;
     width: 100%;
@@ -92,15 +166,12 @@ main {
     cursor: pointer;
     transition: background-color 0.3s ease;
 }
-
 #save-note-btn:hover {
     background-color: #229954;
 }
-
 #notes-list {
     margin-top: 2rem;
 }
-
 .note-item {
     background-color: #ecf0f1;
     padding: 1rem;
@@ -110,14 +181,12 @@ main {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    word-break: break-word; /* Prevents long text from overflowing */
+    word-break: break-word;
 }
-
 .note-text {
     flex-grow: 1;
     margin-right: 1rem;
 }
-
 .delete-btn {
     background-color: #e74c3c;
     color: white;
@@ -126,12 +195,11 @@ main {
     border-radius: 5px;
     cursor: pointer;
     transition: background-color 0.3s ease;
+    flex-shrink: 0; /* Prevents button from shrinking */
 }
-
 .delete-btn:hover {
     background-color: #c0392b;
 }
-
 
 /* Footer Styles */
 footer {
